@@ -8,5 +8,5 @@ module.exports = {
     },
     insertManySimpleMovies(movies) {
         SimpleMovie.insertMany(movies);
-    }
-};
+    },
+  };

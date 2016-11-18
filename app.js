@@ -7,6 +7,7 @@ const queuesFactory = require("./data-structures/queue");
 const modelsFactory = require("./models");
 const constants = require("./config/constants");
 
+
 require("./config/mongoose")(constants.connectionString);
 
 let urlsQueue = queuesFactory.getQueue();
@@ -25,7 +26,7 @@ constants.genres.forEach(genre => {
         urlsQueue.push(url);
     }
 });
-
+// typings install dt~node --global --save
 function getMoviesFromUrl(url) {
     console.log(`Working with ${url}`);
     httpRequester.get(url)
