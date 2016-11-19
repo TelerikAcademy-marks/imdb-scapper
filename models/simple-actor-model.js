@@ -5,11 +5,7 @@ const mongoose = require("mongoose"),
     Schema = mongoose.Schema;
 
 let SimpleActorSchema = new Schema({
-    role: {
-        type: String,
-        required: true
-    },
-      name: {
+    name: {
         type: String,
         required: true
     },
@@ -17,28 +13,36 @@ let SimpleActorSchema = new Schema({
         type: String,
         required: true
     },
-      profileImageUrl: {
+    actorListNumber: {
         type: String,
         required: true
-      }
+    }
 });
 
-//  /name/nm1212722/?ref_=tt_cl_t1%22
+//  /name/{someId}//?ref_=tt_cl_t{listNumer}
 function extractImdbIdFromUrl(url) {
     let index = url.indexOf("/?ref");
-    return url.substring("/title/".length, index);
+    let listNumberIndex = url.indexOf("tt_cl_t");
+
+    return {
+        id: url.substring("/name/".length, index),
+        listNumber: url.substring(listNumberIndex + "tt_cl_t".length)
+    };
 }
 
 let SimpleActor;
-SimpleActorSchema.statics.getSimpleMovieByNameAndUrl =
-    function(role, name, url, profileImageUrl) {
-        let imdbId = extractImdbIdFromUrl(url);
-        return new SimpleActor({ role,name, imdbId,profileImageUrl });
-    };
+SimpleActorSchema.statics.getSimpleActorByNameAndUrl =
+    function (actorName, url) {
+        let imdbInfo = extractImdbIdFromUrl(url);
+        let actorId = imdbInfo.id;
+        let listNumber = imdbInfo.listNumber;
 
-SimpleActorSchema.virtual.imdbUrl = function() {
-    return `http://imdb.com/title/${this.imdbId}/?ref_=adv_li_tt`;
-};
+        return new SimpleActor({
+            name: actorName,
+            imdbId: actorId,
+            actorListNumber: listNumber
+        });
+    };
 
 mongoose.model("SimpleActor", SimpleActorSchema);
 SimpleActor = mongoose.model("SimpleActor");

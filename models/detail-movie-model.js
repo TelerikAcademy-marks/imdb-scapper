@@ -13,7 +13,6 @@ let MovieDetailsSchema = new Schema({
     trailerUrl: {
         type: String
     },
-     
     title: {
         type: String,
         required: true
@@ -22,24 +21,17 @@ let MovieDetailsSchema = new Schema({
         type: String,
         required: true
     },
-    category:{
-         type: String,
-        required: true        
-    },
-    relaseDate:{
-        type: Date,
-        require: true
-    },
-    actors:{
-        type:[{ActorSchema}],
+    category: {
+        type: String,
         required: true
-    }
+    },
+    actors: []
 });
 
 let MovieDetails;
-MovieDetailsSchema.statics.DetailsMovieByTitle =
-    function (coverImageUrl, title, description, category, relaseDate, actors, trailerUrl="") {
-           return new MovieDetails({ coverImageUrl, trailerUrl, title, description, category, relaseDate, actors });
+MovieDetailsSchema.statics.detailsMovieByTitle =
+    function(coverImageUrl, title, description, category, trailerUrl = "", actors) {
+        return new MovieDetails({ coverImageUrl, trailerUrl, title, description, category, actors });
     };
 
 mongoose.model("MovieDetails", MovieDetailsSchema);

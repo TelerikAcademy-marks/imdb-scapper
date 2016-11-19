@@ -1,10 +1,9 @@
 /* globals module require */
 
 const SimpleMovie = require("./simple-movie-model");
-const MovieDetails = require("./movie-detailes-model");
-const SimpleActor = require ("./simple-actors-model");
-const ActorDetails = require("./actor-detailes-model");
-const MovieActor = require("./movie-actor-model");
+const DetailMovie = require("./detail-movie-model");
+const SimpleActor = require("./simple-actor-model");
+const DetailActor = require("./detail-actor-model");
 
 module.exports = {
     getSimpleMovie(name, url) {
@@ -13,18 +12,28 @@ module.exports = {
     insertManySimpleMovies(movies) {
         SimpleMovie.insertMany(movies);
     },
-
-    getMovieDetails(coverImageUrl, title, description, category, relaseDate, actors, trailerUrl=""){
-        return Movie
+    insertManyDetailMovie(movies) {
+        DetailMovie.insertMany(movies);
     },
-    insertManyMoviesDatails(movies){
-        MovieDetails.insertMany(movies)
+    insertManySimpleActors(actors) {
+        SimpleActor.insertMany(actors);
     },
-
-  getActorDetails(profilImageUrl, name, biography, movies){
-        return Movie
+    insertManyDetailActors(actors) {
+        DetailActor.insertMany(actors);
     },
-    insertManyActorsDatails(movies){
-        ActorDetails.insertMany(movies)
+    getAllSimpleMovies() {
+        return SimpleMovie.find({});
+    },
+    getAllDetailMovies() {
+        return DetailMovie.find({});
+    },
+    getDetailMovie(coverImageUrl, title, description, category, trailerUrl = "", actors) {
+        return DetailMovie.detailsMovieByTitle(coverImageUrl, title, description, category, trailerUrl, actors);
+    },
+    getSimpleActor(url, name) {
+        return SimpleActor.getSimpleActorByNameAndUrl(name, url);
+    },
+    getDetailActor(name, coverImgUrl, biography, movies) {
+        return DetailActor.detailsActorByName(name, coverImgUrl, biography, movies);
     }
-  };
+};

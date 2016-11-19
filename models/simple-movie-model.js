@@ -23,12 +23,12 @@ function extractImdbIdFromUrl(url) {
 
 let SimpleMovie;
 SimpleMovieSchema.statics.getSimpleMovieByNameAndUrl =
-    function(name, url) {
+    function (name, url) {
         let imdbId = extractImdbIdFromUrl(url);
         return new SimpleMovie({ name, imdbId });
     };
 
-SimpleMovieSchema.virtual.imdbUrl = function() {
+SimpleMovieSchema.virtual.imdbUrl = function () {
     return `http://imdb.com/title/${this.imdbId}/?ref_=adv_li_tt`;
 };
 
