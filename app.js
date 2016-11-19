@@ -26,7 +26,7 @@ constants.genres.forEach(genre => {
         urlsQueue.push(url);
     }
 });
-// typings install dt~node --global --save
+
 function getMoviesFromUrl(url) {
     console.log(`Working with ${url}`);
     httpRequester.get(url)

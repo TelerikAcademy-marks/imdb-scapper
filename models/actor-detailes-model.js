@@ -1,8 +1,6 @@
 /* globals require module, ActorMovie */
 "use strict";
-/*
 
-For each movie extract name of the movie, the id of the Movie in IMDB, and the name of the character */
 const mongoose = require("mongoose"),
     Schema = mongoose.Schema;
 
@@ -29,8 +27,8 @@ let DetailedActorSchema = new Schema({
 
 let DetailedActor;
 DetailedActorSchema.statics.DetailsActorByNameAndUrl =
-    function (coverImageUrl, title, description, category, relaseDate, actors, trailerUrl="") {
-           return new DetailedActor({ coverImageUrl, trailerUrl, title, description, category, relaseDate, actors });
+    function (profilImageUrl, name, biography, movies) {
+           return new DetailedActor({ profilImageUrl, name, biography, movies});
     };
 
 mongoose.model("DetailedActor", DetailedActorSchema);

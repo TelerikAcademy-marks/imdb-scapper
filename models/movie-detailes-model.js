@@ -36,13 +36,11 @@ let MovieDetailsSchema = new Schema({
     }
 });
 
-
 let MovieDetails;
 MovieDetailsSchema.statics.DetailsMovieByTitle =
     function (coverImageUrl, title, description, category, relaseDate, actors, trailerUrl="") {
            return new MovieDetails({ coverImageUrl, trailerUrl, title, description, category, relaseDate, actors });
     };
-
 
 mongoose.model("MovieDetails", MovieDetailsSchema);
 MovieDetails = mongoose.model("MovieDetails");
