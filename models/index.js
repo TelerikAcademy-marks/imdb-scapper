@@ -22,7 +22,18 @@ module.exports = {
         DetailActor.insertMany(actors);
     },
     getAllSimpleMovies() {
-        return SimpleMovie.find({});
+        //return SimpleMovie.find({});
+
+        return new Promise((resolve, reject) => {
+            SimpleMovie.find()
+                .exec((err, res) => {
+                    if (err) {
+                        reject(err.message);
+                    }
+
+                    resolve(res);
+                });
+        });
     },
     getAllDetailMovies() {
         return DetailMovie.find({});

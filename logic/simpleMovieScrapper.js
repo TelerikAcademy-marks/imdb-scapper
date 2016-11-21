@@ -1,3 +1,6 @@
+/* globals console require setTimeout Promise */
+"use strict";
+
 const httpRequester = require("../utils/http-requester");
 const htmlParser = require("../utils/html-parser");
 const queuesFactory = require("../data-structures/queue");
@@ -14,9 +17,14 @@ constants.genres.forEach(genre => {
     }
 });
 
-function getMoviesFromUrl(url) {
+function getMoviesFromUrl() {
+    if (urlsQueue.isEmpty()) {
+        return Promise.resolve();
+    }
+
+    const url = urlsQueue.pop();
     console.log(`Working with ${url}`);
-    httpRequester.get(url)
+    return httpRequester.get(url)
         .then((result) => {
             const selector = ".col-title span[title] a";
             const html = result.body;
@@ -29,25 +37,25 @@ function getMoviesFromUrl(url) {
 
             modelsFactory.insertManySimpleMovies(dbMovies);
 
-            return spanTimer.wait(500);
+            return spanTimer.wait(1000);
         })
         .then(() => {
-            if (urlsQueue.isEmpty()) {
-                return;
-            }
+            getMoviesFromUrl();
 
-            getMoviesFromUrl(urlsQueue.pop());
+            return Promise.resolve();
         })
         .catch((err) => {
             console.dir(err, { colors: true });
         });
 }
 
-const asyncPagesCount = 5;
+const asyncPagesCount = 8;
 
 module.exports.fillDatabaseWithSimpleMovies = function () {
-    return Promise.resolve().then(() => {
-        Array.from({ length: asyncPagesCount })
-        .forEach(() => getMoviesFromUrl(urlsQueue.pop()));
-    });
+    //return new Promise((resolve, reject) => {
+        return Promise.all(Array.from({ length: asyncPagesCount }).map(() => getMoviesFromUrl()));
+            // .then(() => {
+            //     resolve();
+            // });
+    //});
 };

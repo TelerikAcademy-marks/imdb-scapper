@@ -1,3 +1,7 @@
+
+# Ignore __Teamwork directory
+node_modules/
+
 # Logs
 logs
 *.log
